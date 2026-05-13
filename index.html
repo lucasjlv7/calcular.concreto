@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Dosagem UFRN</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f4f9; }
+        .box { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 10px; }
+        input, select { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px; }
+        button { width: 100%; padding: 15px; background: #003da5; color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 16px; }
+        .res { display: none; margin-top: 20px; border-top: 2px solid #003da5; padding-top: 10px; }
+        .res b { color: #003da5; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h3>Dados de Entrada</h3>
+    <label>fck (MPa):</label>
+    <input type="number" id="fck" value="25">
+    
+    <label>sd (4.0, 5.5 ou 7.0):</label>
+    <select id="sd">
+        <option value="4.0">A - Rigoroso (4.0)</option>
+        <option value="5.5">B - RazoÃ¡vel (5.5)</option>
+        <option value="7.0" selected>C - Regular (7.0)</option>
+    </select>
+
+    <label>Abatimento y (mm):</label>
+    <input type="number" id="y" value="80">
+
+    <label>Dmax (9.5 ou 19):</label>
+    <select id="dmax">
+        <option value="9.5">9.5 mm</option>
+        <option value="19" selected>19 mm</option>
+    </select>
+</div>
+
+<button onclick="calcular()">CALCULAR AGORA</button>
+
+<div id="res" class="box res">
+    <h3>Memorial de CÃ¡lculo</h3>
+    <p>fcm28: <b id="rfcm28"></b> MPa</p>
+    <p>m a/c: <b id="rmac"></b></p>
+    <p>Cimento (C): <b id="rc"></b> kg/mÂ³</p>
+    <p>TraÃ§o Massa: <b id="rtraco"></b></p>
+    <hr>
+    <p>Padiola Areia (h): <b id="rha"></b> cm</p>
+    <p>Padiola Brita (h): <b id="rhg"></b> cm</p>
+</div>
+
+<script>
+function calcular() {
+    try {
+        const fck = parseFloat(document.getElementById('fck').value);
+        const sd = parseFloat(document.getElementById('sd').value);
+        const y = document.getElementById('y').value;
+        const dmax = document.getElementById('dmax').value;
+
+        // 1. fcm28
+        const fcm28 = fck + (1.65 * sd);
+
+        // 2. m a/c (FÃ³rmula simplificada da curva ABCP para Classe 32)
+        const mac = (1.25 * Math.exp(-0.018 * fcm28)).toFixed(2);
+
+        // 3. Ãgua (a) - Valores da sua imagem
+        const tabAgua = { "80": { "9.5": 225, "19": 199 }, "100": { "9.5": 230, "19": 203 } };
+        const a = tabAgua[y] ? tabAgua[y][dmax] : 200;
+
+        // 4. Cimento (C)
+        const C = (a / mac).toFixed(0);
+
+        // 5. SaÃ­das Padiola (35x45) - Valores Estimados para teste
+        const ha = 22.5; // Exemplo fixo para ver se o app roda
+        const hg = 28.3;
+
+        document.getElementById('res').style.display = 'block';
+        document.getElementById('rfcm28').innerText = fcm28.toFixed(1);
+        document.getElementById('rmac').innerText = mac;
+        document.getElementById('rc').innerText = C;
+        document.getElementById('rtraco').innerText = "1 : 2.15 : 3.20"; // Exemplo
+        document.getElementById('rha').innerText = ha;
+        document.getElementById('rhg').innerText = hg;
+
+    } catch (e) {
+        alert("Erro no cÃ¡lculo: " + e.message);
+    }
+}
+</script>
+
+</body>
+</html>
