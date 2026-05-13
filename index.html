@@ -1,0 +1,567 @@
+Desenvolvido por Lucas Juan L. V.
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dosagem ABCP - UFRN</title>
+
+<style>
+
+body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:linear-gradient(180deg,#edf3ff 0%,#f7f9fc 100%);
+    margin:0;
+    padding:15px;
+    color:#1c1c1e;
+    max-width:700px;
+    margin:auto;
+}
+
+.topo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin:10px 0 18px;
+}
+
+.logo{
+    width:62px;
+    height:62px;
+    border-radius:18px;
+    background:#003da5;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    box-shadow:0 8px 20px rgba(0,61,165,0.25);
+}
+
+h1{
+    margin:0;
+    font-size:24px;
+    color:#0f172a;
+}
+
+.topo p{
+    margin:2px 0 0;
+    color:#64748b;
+    font-size:14px;
+}
+
+.card{
+    background:rgba(255,255,255,0.96);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+    padding:18px;
+    margin-bottom:16px;
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.06),
+        0 2px 6px rgba(0,0,0,0.04);
+    border:1px solid rgba(255,255,255,0.7);
+    transition:0.25s;
+}
+
+.card:hover{
+    transform:translateY(-2px);
+}
+
+h2{
+    font-size:13px;
+    color:#003da5;
+    text-transform:uppercase;
+    border-bottom:2px solid #003da5;
+    padding-bottom:5px;
+    margin-top:0;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+label{
+    display:block;
+    font-size:11px;
+    font-weight:bold;
+    color:#64748b;
+    margin-top:8px;
+}
+
+input,select{
+    width:100%;
+    padding:13px;
+    border-radius:14px;
+    border:1px solid #dbe2ea;
+    background:#f8fafc;
+    font-size:15px;
+    transition:0.2s;
+    box-sizing:border-box;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#2563eb;
+    background:white;
+    box-shadow:0 0 0 4px rgba(37,99,235,0.12);
+}
+
+button{
+    width:100%;
+    border:none;
+    border-radius:18px;
+    padding:18px;
+    background:linear-gradient(135deg,#003da5,#2563eb);
+    color:white;
+    font-size:17px;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:10px;
+    transition:0.2s;
+    box-shadow:0 10px 20px rgba(37,99,235,0.25);
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+button:active{
+    transform:scale(0.98);
+}
+
+.res{
+    display:none;
+    background:linear-gradient(180deg,#eff6ff,#dbeafe);
+    border:1px solid #93c5fd;
+    border-radius:22px;
+}
+
+.line{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px solid rgba(0,0,0,0.05);
+    font-size:14px;
+}
+
+.destaque{
+    background:white;
+    border-radius:14px;
+    padding:10px 12px;
+    margin:8px 0;
+    box-shadow:0 4px 10px rgba(0,0,0,0.05);
+    font-weight:700;
+}
+
+b{
+    color:#003da5;
+}
+
+hr{
+    border:0;
+    border-top:1px dashed #93c5fd;
+    margin:14px 0;
+}
+
+@keyframes aparecer{
+
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topo">
+
+<div class="logo">🧱</div>
+
+<div>
+<h1>Dosagem ABCP</h1>
+<p>Calculadora UFRN • Método ABCP</p>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>1. Critérios e Durabilidade</h2>
+
+<div class="grid">
+
+<div>
+<label>Fck (MPa)</label>
+<input type="number" id="fck" value="30">
+</div>
+
+<div>
+<label>Controle (Sd)</label>
+<select id="sd">
+<option value="4" selected>Tipo A - 4,0</option>
+<option value="5.5">Tipo B - 5,5</option>
+<option value="7">Tipo C - 7,0</option>
+</select>
+</div>
+
+<div>
+<label>Classe do Cimento</label>
+<select id="classe">
+<option value="25">25 MPa</option>
+<option value="32" selected>32 MPa</option>
+<option value="40">40 MPa</option>
+</select>
+</div>
+
+<div>
+<label>Slump Y (mm)</label>
+<input type="number" id="y" value="80">
+</div>
+
+<div>
+<label>Dmax (mm)</label>
+<select id="dmax">
+<option value="9.5">9,5</option>
+<option value="19">19</option>
+<option value="25" selected>25</option>
+<option value="38">38</option>
+</select>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>2. Laboratório</h2>
+
+<div class="grid">
+
+<div>
+<label>gc</label>
+<input type="number" id="gc" value="3.10">
+</div>
+
+<div>
+<label>dc</label>
+<input type="number" id="dc" value="1.43">
+</div>
+
+<div>
+<label>g1</label>
+<input type="number" id="g1" value="2.60">
+</div>
+
+<div>
+<label>d1</label>
+<input type="number" id="d1" value="1.40">
+</div>
+
+<div>
+<label>g2</label>
+<input type="number" id="g2" value="2.70">
+</div>
+
+<div>
+<label>d2</label>
+<input type="number" id="d2" value="1.45">
+</div>
+
+<div>
+<label>g concreto</label>
+<input type="number" id="gconcreto" value="2400">
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>3. Parâmetros</h2>
+
+<div class="grid">
+
+<div>
+<label>as (%)</label>
+<input type="number" id="as" value="46">
+</div>
+
+<div>
+<label>am (%)</label>
+<input type="number" id="am" value="36">
+</div>
+
+<div>
+<label>ar (%)</label>
+<input type="number" id="ar" value="56">
+</div>
+
+<div>
+<label>h (%)</label>
+<input type="number" id="h" value="1">
+</div>
+
+</div>
+
+<label>Peça / Exposição</label>
+
+<div class="grid">
+
+<select id="peca">
+<option value="delgada" selected>Peça Delgada</option>
+<option value="comum">Peça Comum</option>
+</select>
+
+<select id="exp">
+<option value="comum" selected>Ambiente Comum</option>
+<option value="agressivo">Ambiente Agressivo</option>
+</select>
+
+</div>
+
+</div>
+
+<button onclick="calcular()">CALCULAR DOSAGEM</button>
+
+<div id="resultado" class="card res">
+
+<h2>Resultados</h2>
+
+<div class="line"><span>fc28:</span><b id="r_fc28"></b></div>
+<div class="line"><span>a/c:</span><b id="r_x"></b></div>
+<div class="line"><span>Água:</span><b id="r_a"></b></div>
+<div class="line"><span>Cimento:</span><b id="r_c"></b></div>
+<div class="line"><span>gm:</span><b id="r_gm"></b></div>
+<div class="line"><span>M:</span><b id="r_M"></b></div>
+
+<hr>
+
+<div class="line"><span>M1:</span><b id="r_M1"></b></div>
+<div class="line"><span>M2:</span><b id="r_M2"></b></div>
+
+<div class="line"><span>M1':</span><b id="r_M1c"></b></div>
+<div class="line"><span>M2':</span><b id="r_M2c"></b></div>
+
+<div class="line destaque"><span>Mh1':</span><b id="r_Mh1"></b></div>
+<div class="line destaque"><span>a':</span><b id="r_acorr"></b></div>
+
+<hr>
+
+<div class="line"><span>Traço Massa:</span><b id="r_tm"></b></div>
+<div class="line"><span>Traço Volume:</span><b id="r_tv"></b></div>
+
+</div>
+
+<script>
+
+function arred2(valor){
+
+    return Math.round((valor + Number.EPSILON) * 100) / 100;
+
+}
+
+function mediana3(x1,x2,x3){
+
+    return [x1,x2,x3]
+        .sort((n1,n2)=>n1-n2)[1];
+
+}
+
+function calcular(){
+
+    const tabAgua = {
+
+        10:{9.5:183,19:162,25:154,38:143},
+        20:{9.5:196,19:173,25:165,38:153},
+        30:{9.5:204,19:180,25:172,38:159},
+        40:{9.5:210,19:186,25:177,38:164},
+        50:{9.5:215,19:190,25:181,38:167},
+        60:{9.5:219,19:193,25:184,38:171},
+        80:{9.5:225,19:199,25:189,38:176},
+        100:{9.5:230,19:203,25:194,38:180},
+        120:{9.5:235,19:207,25:197,38:183},
+        150:{9.5:240,19:212,25:202,38:187},
+        180:{9.5:244,19:216,25:205,38:190}
+
+    };
+
+    const tabAB = {
+
+        25:{A:17,B:9},
+        32:{A:21,B:11},
+        40:{A:26,B:14}
+
+    };
+
+    const tabDur = {
+
+        delgada:{
+            comum:0.45,
+            agressivo:0.40
+        },
+
+        comum:{
+            comum:0.50,
+            agressivo:0.45
+        }
+
+    };
+
+    const fck = parseFloat(document.getElementById('fck').value);
+    const sd = parseFloat(document.getElementById('sd').value);
+    const classe = parseInt(document.getElementById('classe').value);
+
+    const y = parseFloat(document.getElementById('y').value);
+    const dmax = parseFloat(document.getElementById('dmax').value);
+
+    const gc = parseFloat(document.getElementById('gc').value);
+    const dc = parseFloat(document.getElementById('dc').value);
+
+    const g1 = parseFloat(document.getElementById('g1').value);
+    const d1 = parseFloat(document.getElementById('d1').value);
+
+    const g2 = parseFloat(document.getElementById('g2').value);
+    const d2 = parseFloat(document.getElementById('d2').value);
+
+    const gconcreto = parseFloat(document.getElementById('gconcreto').value);
+
+    const as = parseFloat(document.getElementById('as').value)/100;
+    const am = parseFloat(document.getElementById('am').value)/100;
+    const ar = parseFloat(document.getElementById('ar').value)/100;
+
+    const h = parseFloat(document.getElementById('h').value)/100;
+
+    const fc28 = arred2(fck + (1.65 * sd));
+
+    const agua = arred2(tabAgua[y][dmax]);
+
+    const A = tabAB[classe].A;
+    const B = tabAB[classe].B;
+
+    const x_res = arred2(A / (fc28 + B));
+
+    const x_dur = arred2(
+        tabDur[
+            document.getElementById('peca').value
+        ][
+            document.getElementById('exp').value
+        ]
+    );
+
+    const x = arred2(Math.min(x_res,x_dur));
+
+    const c = arred2(agua / x);
+
+    const gm = arred2(
+        1 / (
+            (as / g1) +
+            ((1 - as) / g2)
+        )
+    );
+
+    const M = arred2(
+        (1000 - (c / gc) - agua) * gm
+    );
+
+    const M1_as = arred2((as * (c + M)) - c);
+    const M2_as = arred2(M - M1_as);
+
+    const M1_am = arred2(am * M);
+    const M2_am = arred2(M - M1_am);
+
+    const M2_ar = arred2((1 - ar) * gconcreto);
+    const M1_ar = arred2(M - M2_ar);
+
+    const M1 = arred2(
+        mediana3(
+            M1_as,
+            M1_am,
+            M1_ar
+        )
+    );
+
+    const M2 = arred2(
+        mediana3(
+            M2_as,
+            M2_am,
+            M2_ar
+        )
+    );
+
+    const M1c = arred2((M1 * g1) / gm);
+    const M2c = arred2((M2 * g2) / gm);
+
+    const Mh1 = arred2(M1c * (1 + h));
+
+    const a_corr = arred2(
+        agua - (Mh1 - M1c)
+    );
+
+    const m1 = arred2(M1c / c);
+    const m2 = arred2(M2c / c);
+
+    const vc = arred2(c / dc);
+    const v1 = arred2(Mh1 / d1);
+    const v2 = arred2(M2c / d2);
+    const va = arred2(a_corr);
+
+    const n1 = arred2(v1 / vc);
+    const n2 = arred2(v2 / vc);
+    const na = arred2(va / vc);
+
+    const resultado = document.getElementById('resultado');
+
+    resultado.style.display='block';
+    resultado.style.animation='aparecer 0.35s ease';
+
+    document.getElementById('r_fc28').innerText = fc28.toFixed(2)+' MPa';
+    document.getElementById('r_x').innerText = x.toFixed(2);
+    document.getElementById('r_a').innerText = agua.toFixed(2)+' L';
+    document.getElementById('r_c').innerText = c.toFixed(2)+' kg';
+    document.getElementById('r_gm').innerText = gm.toFixed(2);
+    document.getElementById('r_M').innerText = M.toFixed(2)+' kg';
+
+    document.getElementById('r_M1').innerText = M1.toFixed(2)+' kg';
+    document.getElementById('r_M2').innerText = M2.toFixed(2)+' kg';
+
+    document.getElementById('r_M1c').innerText = M1c.toFixed(2)+' kg';
+    document.getElementById('r_M2c').innerText = M2c.toFixed(2)+' kg';
+
+    document.getElementById('r_Mh1').innerText = Mh1.toFixed(2)+' kg';
+    document.getElementById('r_acorr').innerText = a_corr.toFixed(2)+' L';
+
+    document.getElementById('r_tm').innerText =
+        `1 : ${m1.toFixed(2)} : ${m2.toFixed(2)} : ${x.toFixed(2)}`;
+
+    document.getElementById('r_tv').innerText =
+        `1 : ${n1.toFixed(2)} : ${n2.toFixed(2)} : ${na.toFixed(2)}`;
+
+}
+
+</script>
+
+</body>
+</html>
